@@ -1,0 +1,88 @@
+{% extends './base.html' %}
+{% load static %}
+<html lang="en">
+
+{% block title %}
+	Главная страница
+{% endblock %}
+
+{% block header %}
+    {% include './block/header.html' %}
+{% endblock %}
+
+{% block content %}
+<section class="blog_area p_120">
+    <div class="container">
+        <div class="row">
+			<div class="col-lg-8">
+				<div class="blog_left_sidebar">
+					<div class="row">
+						{% for post in page_obj %}
+							<div class="col-md-6">
+								<article class="blog_style1">
+									<div class="blog_img">
+										<a href="{% url 'post_detail' post.url %}"> <img class="img-fluid" src="{{ post.image.url }}" alt=""> </a>
+									</div>
+									<div class="blog_text">
+										<div class="blog_text_inner">
+											<div class="cat">
+												<a href="#"><i class="fa fa-calendar" aria-hidden="true"></i> {{ post.created_at }} </a>
+												<div>
+													<a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> {{ post.comments.count }} </a>
+												</div>
+												<div>
+													{% for tag in post.tag.all %}
+														<a href="{% url 'tag' tag.slug %}" class="mr-1 badge ">#{{ tag }}</a>
+													{% endfor %}
+												</div>
+											</div>
+											<a href="{% url 'post_detail' post.url %}"><h4>{{ post.title }}</h4></a>
+											<p>{{ post.description|safe|truncatechars:100 }}</p>
+											<a class="blog_btn" href="{% url 'post_detail' post.url %}">Подробнее</a>
+										</div>
+									</div>
+								</article>
+							</div>
+						{% endfor %}
+					</div>
+					<nav aria-label="Paginate me" class="blog-pagination justify-content-center d-flex">
+					  <ul class="pagination justify-content-center">
+						{% if page_obj.has_previous %}
+						  <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-label="Previous">
+							  <span class="lnr lnr-chevron-left"></span>
+						  </a>
+						{% else %}
+						<li class="page-item disabled">
+						  <a class="page-link disabled" href="#" tabindex="-1" aria-label="Previous">
+							  <span class="lnr lnr-chevron-left"></span>
+						  </a>
+						</li>
+						{% endif %}
+						{% for i in page_obj.paginator.page_range %}
+						{% if i == page_obj.number %}
+						  <li class="page-item active"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+						{% else %}
+						  <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+						{% endif %}
+						{% endfor %}
+						{% if page_obj.has_next %}
+						  <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+							  <span class="lnr lnr-chevron-right"></span>
+						  </a>
+						{% else %}
+						  <li class="page-item disabled">
+							<a class="page-link" href="#" aria-label="Next">
+								<span class="lnr lnr-chevron-right"></span>
+							</a>
+						  </li>
+						{% endif %}
+					  </ul>
+					</nav>
+				</div>
+			</div>
+			{% include './block/aside.html' %}
+		</div>
+	</div>
+</section>
+{% endblock %}
+

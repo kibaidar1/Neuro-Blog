@@ -1,0 +1,6 @@
+/NeuroBlog/NeuroBlog/.env
+*.log
+build/
+node_modules/
+.idea/
+my_notes.txt
