@@ -17,11 +17,13 @@ class MainView(View):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
+        last_posts = Post.objects.all().order_by('-id')[:5]
         hot_posts = HotPost.objects.all()
         common_tags = Post.tag.most_common()
 
         return render(request, 'blog/index.html', context={
             'page_obj': page_obj,
+            'last_posts': last_posts,
             'hot_posts': hot_posts,
             'common_tags': common_tags,
         })
@@ -31,18 +33,20 @@ class PostDetailView(View):
 
     def get(self, request, slug, *args, **kwargs):
         post = get_object_or_404(Post, url=slug)
+
+        last_posts = Post.objects.all().order_by('-id')[:5]
         hot_posts = HotPost.objects.all()
         common_tags = Post.tag.most_common()
-        last_posts = Post.objects.all().order_by('-id')[:5]
+
         prev_post = post.get_prev_post()
         next_post = post.get_next_post()
         comment_form = CommentForm()
 
         return render(request, 'blog/post_detail.html', context={
             'post': post,
+            'last_posts': last_posts,
             'hot_posts': hot_posts,
             'common_tags': common_tags,
-            'last_posts': last_posts,
             'prev_post': prev_post,
             'next_post': next_post,
             'comment_form': comment_form
