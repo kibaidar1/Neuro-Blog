@@ -26,9 +26,9 @@
 									<div class="blog_text">
 										<div class="blog_text_inner">
 											<div class="cat">
-												<a href="#"><i class="fa fa-calendar" aria-hidden="true"></i> {{ post.created_at }} </a>
+												<a><i class="fa fa-calendar" aria-hidden="true"></i> {{ post.created_at }} </a>
 												<div>
-													<a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> {{ post.comments.count }} </a>
+													<a href="{% url 'post_detail' post.url %}#comment-area"><i class="fa fa-comments-o" aria-hidden="true"></i> {{ post.comments.count }} </a>
 												</div>
 												<div>
 													{% for tag in post.tag.all %}

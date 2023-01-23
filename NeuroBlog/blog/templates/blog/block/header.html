@@ -11,8 +11,8 @@
 								<div class="item">
 									<div class="blog_text">
 										<div class="cat">
-											<a href="#"><i class="fa fa-calendar" aria-hidden="true"></i> {{hot.post.created_at}}</a>
-											<a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 1</a>
+											<a><i class="fa fa-calendar" aria-hidden="true"></i> {{hot.post.created_at}}</a>
+											<a href="{% url 'post_detail' hot.post.url %}#comment-area"><i class="fa fa-comments-o" aria-hidden="true"></i> 1</a>
 											<div>
 												{% for tag in hot.post.tag.all %}
 													<a href="{% url 'tag' tag.slug %}" class="mr-1 badge ">#{{ tag }}</a>

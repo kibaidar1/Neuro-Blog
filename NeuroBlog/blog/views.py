@@ -1,9 +1,10 @@
+from django.contrib.auth import login, authenticate
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.core.paginator import Paginator
 
-from .forms import CommentForm
+from .forms import CommentForm, SigUpForm, SignInForm, FeedBackForm
 from .models import Post, HotPost, Comment
 from django.db.models import Q
 from taggit.models import Tag
@@ -60,7 +61,7 @@ class PostDetailView(View):
             post = get_object_or_404(Post, url=slug)
             Comment.objects.create(post=post, author=author, text=text)
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-        return render(request, 'myblog/post_detail.html', context={
+        return render(request, 'blog/post_detail.html', context={
             'comment_form': comment_form
         })
 
@@ -93,4 +94,69 @@ class TagView(View):
             'title': f'#ТЕГ {tag}',
             'posts': posts,
             'common_tags': common_tags
+        })
+
+
+class SignUpView(View):
+    def get(self, request, *args, **kwargs):
+        form = SigUpForm()
+        return render(request, 'blog/signup.html', context={
+            'form': form,
+        })
+
+    def post(self, request, *args, **kwargs):
+        form = SigUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/')
+        return render(request, 'blog/signup.html', context={
+            'form': form,
+        })
+
+
+class SignInView(View):
+    def get(self, request, *args, **kwargs):
+        form = SignInForm()
+        return render(request, 'blog/signin.html', context={
+            'form': form,
+        })
+
+    def post(self, request, *args, **kwargs):
+        form = SignInForm(request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/')
+        return render(request, 'blog/signin.html', context={
+            'form': form,
+        })
+
+
+class FeedBackView(View):
+    def get(self, request, *args, **kwargs):
+        form = FeedBackForm()
+        return render(request, 'myblog/contact.html', context={
+            'form': form,
+            'title': 'Написать мне'
+        })
+
+    def post(self, request, *args, **kwargs):
+        form = FeedBackForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            from_email = form.cleaned_data['email']
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            try:
+                send_mail(f'От {name} - {from_email} | {subject}', message, from_email, ['kibaidar1@gmail.com'])
+            except BadHeaderError:
+                return HttpResponse('Невалидный заголовок')
+            return HttpResponseRedirect('success')
+        return render(request, 'myblog/contact.html', context={
+            'form': form,
         })
