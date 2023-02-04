@@ -4,7 +4,6 @@ from django.core import validators
 from django.db import models
 from django.utils import timezone
 from taggit.managers import TaggableManager
-from PIL import Image
 
 
 class UserManager(BaseUserManager):
@@ -93,6 +92,9 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     tag = TaggableManager()
 
+    class Meta:
+        ordering = ['-created_at']
+
     def get_prev_post(self):
         try:
             return self.get_previous_by_created_at()
@@ -104,7 +106,6 @@ class Post(models.Model):
             return self.get_next_by_created_at()
         except Post.DoesNotExist:
             return None
-
 
     def __str__(self):
         return self.title

@@ -5,7 +5,7 @@
 					{% for hot in hot_posts %}
 						<div class="row">
 							<div class="col-lg-6">
-								<img class="img-fluid" src="{{ hot.post.image.url }}" >
+								<a href="{% url 'post_detail' hot.post.url %}"> <img class="img-fluid" src="{{ hot.post.image.url }}" ></a>
 							</div>
 							<div class="col-lg-6">
 								<div class="item">
@@ -19,7 +19,7 @@
 												{% endfor %}
 											</div>
 										</div>
-										<a href="#"><h4>{{ hot.post.title }}</h4></a>
+										<a href="{% url 'post_detail' hot.post.url %}"><h4>{{ hot.post.title }}</h4></a>
 										<p>{{ hot.post.description }}</p>
 										<a class="blog_btn" href="{% url 'post_detail' hot.post.url %}">Подробнее</a>
 									</div>

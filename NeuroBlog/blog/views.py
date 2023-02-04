@@ -1,5 +1,6 @@
 from django.contrib.auth import login, authenticate
-from django.http import HttpResponseRedirect
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.core.paginator import Paginator
@@ -20,7 +21,7 @@ class MainView(View):
 
         last_posts = Post.objects.all().order_by('-id')[:5]
         hot_posts = HotPost.objects.all()
-        common_tags = Post.tag.most_common()
+        common_tags = Post.tag.most_common()[10]
 
         return render(request, 'blog/index.html', context={
             'page_obj': page_obj,
