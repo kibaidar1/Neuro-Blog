@@ -21,7 +21,7 @@ class MainView(View):
 
         last_posts = Post.objects.all().order_by('-id')[:5]
         hot_posts = HotPost.objects.all()
-        common_tags = Post.tag.most_common()[10]
+        common_tags = Post.tag.most_common()[:10]
 
         return render(request, 'blog/index.html', context={
             'page_obj': page_obj,
