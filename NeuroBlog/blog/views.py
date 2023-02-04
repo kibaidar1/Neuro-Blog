@@ -4,6 +4,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.core.paginator import Paginator
+from django.views.decorators.csrf import csrf_exempt
+import git
 
 from .forms import CommentForm, SigUpForm, SignInForm, FeedBackForm
 from .models import Post, HotPost, Comment
@@ -161,3 +163,20 @@ class FeedBackView(View):
         return render(request, 'myblog/contact.html', context={
             'form': form,
         })
+
+@csrf_exempt
+def update(request):
+    if request.method == "POST":
+        '''
+        pass the path of the diectory where your project will be 
+        stored on PythonAnywhere in the git.Repo() as parameter.
+        Here the name of my directory is "test.pythonanywhere.com"
+        '''
+        repo = git.Repo("kibaidar.pythonanywhere.com/Neuro-Blog")
+        origin = repo.remotes.origin
+
+        origin.pull()
+
+        return HttpResponse("Updated code on PythonAnywhere")
+    else:
+        return HttpResponse("Couldn't update the code on PythonAnywhere")
