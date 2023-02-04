@@ -78,11 +78,11 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': env('ENGINE'),
-        'NAME': env('POSTGRES_NAME'),
-        'USER': env('POSTGRES_USER'),
-        'PASSWORD': env('POSTGRES_PASSWORD'),
-        'HOST': env('POSTGRES_HOST'),
-        'PORT': env('POSTGRES_PORT'),
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
+        'HOST': env('DATABASE_HOST'),
+        'PORT': env('DATABASE_PORT'),
     }
 }
 
