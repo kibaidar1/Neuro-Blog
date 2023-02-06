@@ -4,6 +4,7 @@ from django.core import validators
 from django.db import models
 from django.utils import timezone
 from taggit.managers import TaggableManager
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class UserManager(BaseUserManager):
@@ -85,8 +86,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Post(models.Model):
     title = models.CharField(max_length=200)
     url = models.SlugField()
-    description = models.TextField()
-    content = models.TextField()
+    description = RichTextUploadingField()
+    content = RichTextUploadingField()
     image = models.ImageField()
     created_at = models.DateField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
@@ -122,7 +123,7 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     created_at = models.DateTimeField(default=timezone.now)
-    text = models.TextField()
+    text = RichTextUploadingField()
 
     class Meta:
         ordering = ['-created_at']

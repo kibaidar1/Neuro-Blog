@@ -1,11 +1,13 @@
 from django import forms
 from django.contrib.auth import authenticate
 
-from .models import Comment, User
+from .models import Comment, User, Post
 from django.db.utils import IntegrityError
+from ckeditor.widgets import CKEditorWidget
 
 
 class CommentForm(forms.ModelForm):
+    text = forms.CharField(widget=CKEditorWidget())
 
     class Meta:
         model = Comment
@@ -112,10 +114,19 @@ class FeedBackForm(forms.Form):
         })
     )
     message = forms.CharField(
-        widget=forms.Textarea(attrs={
+        widget=CKEditorWidget(attrs={
             'class': 'form-control md-textarea',
             'id': 'message',
             'rows': 2,
             'placeholder': "Ваше сообщение"
         })
     )
+
+
+class PostAdminForm(forms.ModelForm):
+    description = forms.CharField(widget=CKEditorWidget())
+    content = forms.CharField(widget=CKEditorWidget())
+
+    class Meta:
+        model = Post
+        fields = '__all__'

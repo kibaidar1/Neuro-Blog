@@ -20,7 +20,7 @@
 											</div>
 										</div>
 										<a href="{% url 'post_detail' hot.post.url %}"><h4>{{ hot.post.title }}</h4></a>
-										<p>{{ hot.post.description }}</p>
+										<p>{{ hot.post.description|safe }}</p>
 										<a class="blog_btn" href="{% url 'post_detail' hot.post.url %}">Подробнее</a>
 									</div>
 								</div>

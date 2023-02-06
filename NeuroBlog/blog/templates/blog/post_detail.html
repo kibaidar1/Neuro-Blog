@@ -1,5 +1,4 @@
 {% extends './base.html' %}
-{% load static %}
 <html lang="en">
 
 {% block title %}
@@ -53,9 +52,9 @@
        						</div>
                             <img class="img-fluid" src="{{ post.image.url }}" alt="">
 							<blockquote class="blockquote">
-								<p class="mb-0"> {{post.description}} </p>
+								<p class="mb-0"> {{post.description|safe}} </p>
 							</blockquote>
-                            <p> {{post.content}} </p>
+                            <p> {{post.content|safe}} </p>
       						<div class="news_d_footer">
 <!--      							<a href="#"><i class="lnr lnr lnr-heart"></i>Lily and 4 people like this</a>-->
       							<a class="justify-content-center ml-auto" href="#comment-area"><i class="lnr lnr lnr-bubble"></i> {{ post.comments.count }} Comments</a>
