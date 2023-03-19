@@ -1,5 +1,5 @@
-from django.conf import settings
-from django.contrib.auth.views import LogoutView
+from django import settings
+from django.contrib import LogoutView
 from django.urls import path
 from .views import MainView, PostDetailView, SearchResultsView, TagView, SignUpView, SignInView, update
 

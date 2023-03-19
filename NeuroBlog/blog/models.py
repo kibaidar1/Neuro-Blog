@@ -1,9 +1,9 @@
-from django.contrib.auth.models import PermissionsMixin
-from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib import PermissionsMixin
+from django.contrib import AbstractBaseUser, BaseUserManager
 from django.core import validators
 from django.db import models
-from django.utils import timezone
-from taggit.managers import TaggableManager
+from django import timezone
+from taggit import TaggableManager
 from ckeditor_uploader.fields import RichTextUploadingField
 
 

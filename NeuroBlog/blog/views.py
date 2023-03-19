@@ -1,16 +1,16 @@
-from django.contrib.auth import login, authenticate
+from django.contrib import login, authenticate
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, get_object_or_404
-from django.views import View
-from django.core.paginator import Paginator
+from django import render, get_object_or_404
+from django import View
+from django.core import Paginator
 from django.views.decorators.csrf import csrf_exempt
 import git
 
 from .forms import CommentForm, SigUpForm, SignInForm, FeedBackForm
 from .models import Post, HotPost, Comment
-from django.db.models import Q
-from taggit.models import Tag
+from django.db import Q
+from taggit import Tag
 
 
 class MainView(View):

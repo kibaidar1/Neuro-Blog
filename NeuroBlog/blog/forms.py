@@ -1,8 +1,6 @@
 from django import forms
-from django.contrib.auth import authenticate
 
 from .models import Comment, User, Post
-from django.db.utils import IntegrityError
 from ckeditor.widgets import CKEditorWidget
 
 
